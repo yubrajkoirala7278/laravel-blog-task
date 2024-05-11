@@ -9,10 +9,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/dashboard',[HomeController::class,'index'])->name('admin.dashboard');
 // ================================
 
-// ========posts==================
+// ========routes==================
 Route::resources([
     'posts'=>PostController::class,
     'category'=>CategoryController::class,
 ]);
-
 // ===============================

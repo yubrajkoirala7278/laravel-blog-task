@@ -5,52 +5,42 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Blogs</title>
+    <title>Dashboard</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
     <!-- Favicons -->
-    {{-- <link href="{{ asset('favicon.png') }}" rel="icon">
-    <link href="{{ asset('favicon.png') }}" rel="apple-touch-icon"> --}}
-
-    {{-- csrf token --}}
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    {{-- sweet alert --}}
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/5.0.7/sweetalert2.min.css" rel="stylesheet">
-    {{-- jquery --}}
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    {{-- alerts --}}
-    <script src="https://cdn.lordicon.com/lordicon.js"></script>
+    <link href="assets/img/favicon.png" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
     <link
         href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
         rel="stylesheet">
-
-
-    {{-- font awesome --}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    {{-- data table css link --}}
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
 
     {{-- toastify --}}
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-
+    {{-- csrf token --}}
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
 
     <!-- Bootstrap css -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <!-- icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+    {{-- jquery --}}
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
-    {{-- combo select multiple select --}}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
-    <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+    {{-- font awesome --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    {{-- toastify css --}}
+    @toastifyCss
 
-    @yield('css')
     <!-- Customm css -->
     <link href="{{ asset('admin/assets/css/style.css') }}" rel="stylesheet">
 </head>
@@ -61,22 +51,67 @@
     <header id="header" class="header fixed-top d-flex align-items-center">
 
         <div class="d-flex align-items-center justify-content-between">
-            <a href="{{ route('admin.dashboard') }}" class="logo d-flex align-items-center">
-                {{-- <img src="{{ asset('favicon.png') }}" alt=""> --}}
-                <span class="d-none d-lg-block fs-5">Blogs</span>
+            <a href="#" class="logo d-flex align-items-center">
+                <img src="{{ asset('admin/assets/img/logo.png') }}" alt="">
+                <span class="d-none d-lg-block">NiceAdmin</span>
             </a>
             <i class="bi bi-list toggle-sidebar-btn"></i>
         </div><!-- End Logo -->
 
+
+
         <nav class="header-nav ms-auto">
             <ul class="d-flex align-items-center">
+
                 <li class="nav-item dropdown pe-3">
+
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#"
-                       >
+                        data-bs-toggle="dropdown">
                         <img src="{{ asset('admin/assets/img/profile-img.jpg') }}" alt="Profile"
                             class="rounded-circle">
-                        <span class="d-none d-md-block ps-2">Yubraj Koirala</span>
+                        <span class="d-none d-md-block dropdown-toggle ps-2">Yubraj Koirala</span>
                     </a><!-- End Profile Iamge Icon -->
+
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                        <li class="dropdown-header">
+                            <h6>Yubraj Koirala</h6>
+                            <span>Web Developer</span>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="#">
+                                <i class="bi bi-person"></i>
+                                <span>My Profile</span>
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="#">
+                                <i class="bi bi-gear"></i>
+                                <span>Account Settings</span>
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center" href="{{ route('logout') }}">
+                                <i class="bi bi-box-arrow-right"></i>
+                                <span>Sign Out</span>
+                            </a>
+                        </li>
+
+                    </ul><!-- End Profile Dropdown Items -->
                 </li><!-- End Profile Nav -->
 
             </ul>
@@ -91,29 +126,31 @@
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{{ route('admin.dashboard') }}">
-                    <i class="fa-solid fa-gauge-high"></i>
+                    <i class="fa-solid fa-gauge"></i>
                     <span>Dashboard</span>
+                </a>
+            </li><!-- End Dashboard Nav -->
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{{ route('category.index') }}">
+                    <i class="fa-solid fa-layer-group"></i>
+                    <span>Category</span>
                 </a>
             </li>
 
-            <li class="nav-item ">
+            <li class="nav-item">
                 <a class="nav-link collapsed" href="{{ route('posts.index') }}">
-                    <i class="fa-solid fa-user"></i>
-                    <span>Posts</span>
+                    <i class="fa-solid fa-blog"></i>
+                    <span>Blogs</span>
                 </a>
             </li>
-            <li class="nav-item ">
-                <a class="nav-link collapsed" href="{{ route('category.index') }}">
-                    <i class="fa-solid fa-list"></i>
-                    <span>Categories</span>
-                </a>
-            </li>
-            <li class="nav-item ">
+
+            <li class="nav-item">
                 <a class="nav-link collapsed" href="{{ route('logout') }}">
                     <i class="fa-solid fa-arrow-right-from-bracket"></i>
                     <span>Logout</span>
                 </a>
-            </li>
+            </li><!-- End Logout Page Nav -->
         </ul>
 
     </aside><!-- End Sidebar-->
@@ -121,7 +158,7 @@
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>Blogs</h1>
+            <h1>Dashboard</h1>
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">Admin</a></li>
@@ -150,29 +187,8 @@
 
     {{-- toastify --}}
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $(document).on('click', '.show-alert-delete-box', function(event) {
-                var form = $(this).closest("form");
-
-                event.preventDefault();
-                swal({
-                    title: "Are you sure you want to delete this record?",
-                    text: "If you delete this, it will be gone forever.",
-                    icon: "warning",
-                    type: "warning",
-                    buttons: ["Cancel", "Yes!"],
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
-                }).then((willDelete) => {
-                    if (willDelete) {
-                        form.submit();
-                    }
-                });
-            });
-        });
-    </script>
+    {{-- data table cdn --}}
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 
     {{-- display success message --}}
     @if (session('success'))
@@ -190,8 +206,6 @@
             }).showToast();
         </script>
     @endif
-
-    {{-- display success message --}}
     @if (session('error'))
         <script>
             Toastify({
@@ -208,35 +222,43 @@
         </script>
     @endif
 
-    {{-- generate unique slug --}}
+
+    {{-- toastify js --}}
+    @toastifyJs
+
+    {{-- generate slug --}}
     <script>
-        // Function to generate slug from the given title
-        function generateSlug(title) {
-            return title
+        // Function to generate slug from the given category
+        function generateSlug(category) {
+            return category
                 .toLowerCase()
                 .replace(/[^a-z0-9]+/g, "-")
                 .replace(/^-+|-+$/g, "");
         }
-        const title = document.getElementById("title");
-        if (title) {
-            title.addEventListener("input", function() {
-                var titleValue = this.value;
-                // Generate and set the slug based on the title value
-                document.getElementById("slug").value = generateSlug(titleValue);
+        var category = document.getElementById("category");
+        var updateCategory = document.getElementById("updateCategory");
+        var title=document.getElementById("title");
+        if (category) {
+            category.addEventListener("input", function() {
+                var categoryValue = this.value;
+                // Generate and set the slug based on the category value
+                document.getElementById("slug").value = generateSlug(categoryValue);
             });
         }
+        if (updateCategory) {
+            updateCategory.addEventListener("input", function() {
+                var categoryValue = this.value;
+                document.getElementById("updateSlug").value = generateSlug(categoryValue);
+            });
+        }
+        if (title) {
+            title.addEventListener("input", function() {
+                var categoryValue = this.value;
+                document.getElementById("slug").value = generateSlug(categoryValue);
+            });
+        }
+
     </script>
-
-
-    @yield('script')
-
-    {{-- sweet alert --}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-
-    {{-- multiple/combo select --}}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
     <!-- custom js -->
     <script src="{{ asset('admin/assets/js/main.js') }}"></script>
 

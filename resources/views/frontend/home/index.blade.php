@@ -29,13 +29,14 @@
                                     </div>
                                 </a>
                                 <div class="card-body px-0 pb-0">
+                                    <span class="badge bg-success">{{$post->category->name}}</span>
                                     <h2><a class="post-title"
                                             href="{{ route('frontend.read-more', $post->slug) }}">{{ $post->title }}</a>
                                     </h2>
                                     <p class="card-text">{{ Str::limit($post->description, 200) }}</p>
                                     <div class="content"> <a class="read-more-btn"
                                             href="{{ route('frontend.read-more', $post->slug) }}">Read Full
-                                            Articles</a>
+                                            Blog</a>
                                     </div>
                                 </div>
                             </div>

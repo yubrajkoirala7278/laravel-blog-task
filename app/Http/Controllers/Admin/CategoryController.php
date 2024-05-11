@@ -6,21 +6,39 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use App\Service\CategoryService;
+use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
     private $categoryService;
-    public function __construct() {
+
+    public function __construct()
+    {
         $this->categoryService = new CategoryService();
     }
+
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categories=Category::all();
-        return view('admin.categories.index',compact('categories'));
+        try {
+            if ($request->ajax()) {
+                $categories = $this->categoryService->fetchCategory();
+                return DataTables::of($categories)
+                    ->addIndexColumn()
+                    ->addColumn('action', function ($row) {
+                        return '<a href="javascript:void(0)" class="btn btn-info editButton" data-slug="' . $row->slug . '">Edit</a>
+                            <a href="javascript:void(0)" class="btn btn-danger delButton" data-slug="' . $row->slug . '">Delete</a>';
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+            }
+            return view('admin.category.index');
+        } catch (\Throwable $th) {
+            return back()->with('error', $th->getMessage());
+        }
     }
 
     /**
@@ -28,7 +46,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('admin.categories.create');
+        //
     }
 
     /**
@@ -36,11 +54,14 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
-        try{
-            $this->categoryService->addService($request->except('_token'));
-            return redirect()->route('category.index')->with('success','Category added successfully');
-        }catch(\Throwable $th){
-            return back()->with('error',$th->getMessage());
+        try {
+            $this->categoryService->addService($request->validated());
+            return response()->json([
+                'success' => 'Category added successfully'
+            ]);
+        } catch (\Throwable $th) {
+            return back()->with('error', $th->getMessage());
+            // return response()->json(['error' =>'Something went wrong'],500);
         }
     }
 
@@ -55,34 +76,54 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Category $category)
+    public function edit(string $slug)
     {
-       return view('admin.categories.edit',compact('category'));
+        try {
+            $category = $this->categoryService->fetchSingleCategory($slug);
+            if (!$category) {
+                abort(404);
+            }
+            return $category;
+        } catch (\Throwable $th) {
+            return back()->with('error', $th->getMessage());
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(CategoryRequest $request, Category $category)
+    public function update(Request $request, string $slug)
     {
-        try{
-            $this->categoryService->updateService($request->except('_token','_method'),$category);
-            return redirect()->route('category.index')->with('success','Category updated successfully');
-        }catch(\Throwable $th){
-            return back()->with('error',$th->getMessage());
+        try {
+            $category = Category::where('slug', $request->category_slug)->first();
+            if (!$category) {
+                abort(404);
+            }
+            $this->categoryService->updateCategory($request->except('_method', 'category_slug'), $category);
+            return response()->json([
+                'success' => 'Category Updated Successfully'
+            ], 201);
+        } catch (\Throwable $th) {
+            return back()->with('error', $th->getMessage());
         }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Category $category)
+    public function destroy(string $slug)
     {
-       try{
-        $this->categoryService->delete($category);
-        return back()->with('success','Category deleted successfully');
-       }catch(\Throwable $th){
-        return back()->with('error',$th->getMessage());
-       }
+        try {
+            $category = Category::where('slug', $slug)->first();
+            if (!$category) {
+                abort(404);
+            }
+            $this->categoryService->delete($category);
+            return response()->json([
+                'success' => 'Category Deleted Successfully'
+            ], 201);
+        } catch (\Throwable $th) {
+            return back()->with('error', $th->getMessage());
+        }
     }
 }

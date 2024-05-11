@@ -25,7 +25,7 @@ class PostRequest extends FormRequest
         return [
             'title'=>['required','string','max:255'],
             'slug'=>['required','max:255',Rule::unique('posts')->ignore($this->post)],
-            'description'=>['required','string','max:3000'],
+            'description'=>['required','string'],
             'status'=>['required','integer','max:255'],
             'category'=>['required','integer','max:255'],
             'image' => request()->isMethod('post') ? 'required|image|max:2048' : 'nullable|image|max:2048', 
