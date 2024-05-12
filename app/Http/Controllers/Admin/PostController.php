@@ -22,7 +22,7 @@ class PostController extends Controller
     public function index(Request $request)
     {
         try {
-            $posts = $this->postService->fetchPost();
+            $posts = $this->postService->fetchPost(0);
             return view('admin.posts.index', compact('posts'));
         } catch (\Throwable $th) {
             return back()->with('error', $th->getMessage());

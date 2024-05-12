@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="bg-white p-4">
-        <h2 class="fs-5 mb-4 fw-bold">Create News</h2>
+        <h2 class="fs-5 mb-4 fw-bold">Create Post</h2>
         <form action="{{ route('news.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             {{-- title --}}
@@ -45,8 +45,8 @@
             </div>
             {{-- Category (dynamic single select) --}}
             <div class="mb-3">
-                <label for="addCategory" class="form-label">Category</label>
-                <select class="form-select" name="category" id="addCategory">
+                <label for="category" class="form-label">Category</label>
+                <select class="form-select" name="category" id="category">
                     <option selected disabled value="">Choose Category</option>
                     @if (count($categories) > 0)
                         @foreach ($categories as $category)

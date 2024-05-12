@@ -30,9 +30,9 @@ class PostService
     // =====================================
 
     // ==============GET All==================
-    public function fetchPost()
+    public function fetchPost($is_news)
     {
-        $posts = Post::latest()->with(['category'])->paginate(10);
+        $posts = Post::latest()->with(['category'])->where('is_news', $is_news)->paginate(10);
         return $posts;
     }
     // =======================================
