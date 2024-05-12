@@ -3,41 +3,36 @@
 namespace App\Service;
 
 use App\Models\Post;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class PostService
 {
-    private $imageService;
-    public function __construct()
-    {
-        $this->imageService = new ImageService();
-    }
 
     // ===========POST(Add)=================
     public function addService($request)
     {
-        DB::transaction(function () use ($request) {   //->roll back if not inserted in relationship table
-            // adding data in parent table
-            $post = Post::create([
-                'user_id' => auth()->id(),
-                'category_id' => $request['category'],
-                'title' => $request['title'],
-                'slug'=>$request['slug'],
-                'description' => $request['description'],
-                'status' => $request['status'],
-            ]);
-            // if image exist
-            if (isset($request['image'])) {
-                $this->imageService->saveImage($post, $request['image'], 'post');
-            }
-        });
+        $request['category_id'] = $request['category'];
+        unset($request['category']);
+        // store single image in local storage folder
+        if (isset($request['image'])) {
+            $timestamp = now()->timestamp;
+            $originalName = $request['image']->getClientOriginalName();
+            $imageName = $timestamp . '-' . $originalName;
+            $request['image']->storeAs('public/images/post', $imageName);
+
+            // update the image name in the $request array
+            $request['image'] = $imageName;
+        };
+
+        // store in database table
+        Post::create($request);
     }
     // =====================================
 
     // ==============GET All==================
     public function fetchPost()
     {
-        $posts = Post::latest()->with(['category', 'image'])->paginate(10);
+        $posts = Post::latest()->with(['category'])->paginate(10);
         return $posts;
     }
     // =======================================
@@ -45,7 +40,7 @@ class PostService
     // =========fetch single post===========
     public function view($post)
     {
-        $post = Post::where('slug', $post->slug)->with('image')->first();
+        $post = Post::where('slug', $post->slug)->first();
         return $post;
     }
     // =====================================
@@ -53,26 +48,32 @@ class PostService
     // ===========UPDATE POST==============
     public function updateService($request, $post)
     {
-        // update image
-        if (!empty($request['filename'])) {
-            $this->imageService->updateImage($post, $request['filename'], 'post', true);
+        $request['category_id'] = $request['category'];
+        unset($request['category']);
+
+        if(isset($request['image'])){
+            // Delete the old image from storage folder
+            Storage::delete('public/images/post/'.$post->image);
+            // Store the new image
+            $timestamp = now()->timestamp;
+            $originalName = $request['image']->getClientOriginalName();
+            $imageName = $timestamp . '-' . $originalName;
+            $request['image']->storeAs('public/images/post', $imageName);
+            // Update the image name in the $request array
+            $request['image'] = $imageName;
         }
-        // updating data in parent table
-        $post->update([
-            'user_id' => auth()->id(),
-            'category_id' => $request['category'],
-            'title' => $request['title'],
-            'description' => $request['description'],
-            'status' => $request['status'],
-        ]);
+        $post->update($request);
+    
     }
+    
     // ====================================
 
     // =============DELETE=================
     public function deletePost($post)
     {
-        if (!empty($post['image'])) {
-            $this->imageService->deleteImage($post['image']);
+        // delete image from local storage
+        if(isset($post->image)){
+            Storage::delete('public/images/post/'.$post->image);
         }
         $post->delete();
     }

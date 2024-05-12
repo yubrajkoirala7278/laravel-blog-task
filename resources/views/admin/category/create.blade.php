@@ -19,8 +19,8 @@
                 <div class="modal-body">
                     {{-- category --}}
                     <div class="mb-3">
-                        <label for="category" class="form-label text-black">Category</label>
-                        <input type="text" class="form-control" id="category" name="name">
+                        <label for="addCategory" class="form-label text-black">Category</label>
+                        <input type="text" class="form-control" id="addCategory" name="name">
                         <span id="categoryError" class="text-danger"></span>
                     </div>
                     {{-- slug --}}

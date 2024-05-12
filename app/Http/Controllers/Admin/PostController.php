@@ -48,6 +48,7 @@ class PostController extends Controller
     public function store(PostRequest $request)
     {
         try {
+            $request->merge([ 'user_id' => auth()->id(),'is_news'=>false]);
             $this->postService->addService($request->except('_token'));
             return redirect()->route('posts.index')->with('success', 'Post added successfully!');
         } catch (\Throwable $th) {
@@ -88,7 +89,8 @@ class PostController extends Controller
     public function update(PostRequest $request, Post $post)
     {
         try {
-            $this->postService->updateService($request, $post);
+            $request->merge([ 'user_id' => auth()->id(),'is_news'=>false]);
+            $this->postService->updateService($request->except('_token','_method'), $post);
             return redirect()->route('posts.index')->with('success', 'post updated successfully!');
         } catch (\Throwable $th) {
             return back()->with('error', $th->getMessage());

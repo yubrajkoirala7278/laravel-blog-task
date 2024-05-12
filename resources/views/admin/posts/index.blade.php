@@ -30,7 +30,7 @@
                             <td>{{ $post->user->name }}</td>
                             <td>{{ $post->status == 1 ? 'Active' : 'Inactive' }}</td>
                             <td>
-                                <img  src="{{ asset('/storage/images/post/'.$post->image->filename) }}" style="height: 30px" >
+                                <img  src="{{ asset('/storage/images/post/'.$post->image) }}" style="height: 30px" >
                             </td>
                             <td>
                                 <div class="d-flex align-items-center" style="gap: 10px">

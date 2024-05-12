@@ -24,7 +24,7 @@
                                                                                                                                                                             Y') }}</span>
                                         </div>
                                         <img loading="lazy" decoding="async"
-                                            src="{{ asset('storage/images/post/' . $post->image->filename) }}"
+                                            src="{{ asset('storage/images/post/' . $post->image) }}"
                                             alt="Post Thumbnail" class="w-100">
                                     </div>
                                 </a>

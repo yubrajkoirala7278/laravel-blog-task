@@ -5,13 +5,13 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Dashboard</title>
+    <title>Blogs & News</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
     <!-- Favicons -->
-    <link href="assets/img/favicon.png" rel="icon">
-    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    {{-- <link href="assets/img/favicon.png" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon"> --}}
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -33,6 +33,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
     {{-- jquery --}}
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    {{-- sweet alert --}}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/5.0.7/sweetalert2.min.css" rel="stylesheet">
 
     {{-- font awesome --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
@@ -52,8 +54,8 @@
 
         <div class="d-flex align-items-center justify-content-between">
             <a href="#" class="logo d-flex align-items-center">
-                <img src="{{ asset('admin/assets/img/logo.png') }}" alt="">
-                <span class="d-none d-lg-block">NiceAdmin</span>
+                {{-- <img src="{{ asset('admin/assets/img/logo.png') }}" alt=""> --}}
+                <span class="d-none d-lg-block">Blogs & News</span>
             </a>
             <i class="bi bi-list toggle-sidebar-btn"></i>
         </div><!-- End Logo -->
@@ -63,55 +65,16 @@
         <nav class="header-nav ms-auto">
             <ul class="d-flex align-items-center">
 
-                <li class="nav-item dropdown pe-3">
+                <li class="nav-item  pe-3">
 
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#"
                         data-bs-toggle="dropdown">
                         <img src="{{ asset('admin/assets/img/profile-img.jpg') }}" alt="Profile"
                             class="rounded-circle">
-                        <span class="d-none d-md-block dropdown-toggle ps-2">Yubraj Koirala</span>
+                        <span class="d-none d-md-block  ps-2">Yubraj Koirala</span>
                     </a><!-- End Profile Iamge Icon -->
 
-                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-                        <li class="dropdown-header">
-                            <h6>Yubraj Koirala</h6>
-                            <span>Web Developer</span>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li>
-                            <a class="dropdown-item d-flex align-items-center" href="#">
-                                <i class="bi bi-person"></i>
-                                <span>My Profile</span>
-                            </a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li>
-                            <a class="dropdown-item d-flex align-items-center" href="#">
-                                <i class="bi bi-gear"></i>
-                                <span>Account Settings</span>
-                            </a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li>
-                            <a class="dropdown-item d-flex align-items-center" href="{{ route('logout') }}">
-                                <i class="bi bi-box-arrow-right"></i>
-                                <span>Sign Out</span>
-                            </a>
-                        </li>
-
-                    </ul><!-- End Profile Dropdown Items -->
+                    
                 </li><!-- End Profile Nav -->
 
             </ul>
@@ -142,6 +105,13 @@
                 <a class="nav-link collapsed" href="{{ route('posts.index') }}">
                     <i class="fa-solid fa-blog"></i>
                     <span>Blogs</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{{ route('news.index') }}">
+                    <i class="fa-regular fa-newspaper"></i>
+                    <span>News</span>
                 </a>
             </li>
 
@@ -235,7 +205,7 @@
                 .replace(/[^a-z0-9]+/g, "-")
                 .replace(/^-+|-+$/g, "");
         }
-        var category = document.getElementById("category");
+        var category = document.getElementById("addCategory");
         var updateCategory = document.getElementById("updateCategory");
         var title=document.getElementById("title");
         if (category) {
@@ -259,8 +229,34 @@
         }
 
     </script>
+
+    {{-- sweet alert --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
     <!-- custom js -->
     <script src="{{ asset('admin/assets/js/main.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(document).on('click', '.show-alert-delete-box', function(event){
+                var form =  $(this).closest("form");
+    
+                event.preventDefault();
+                swal({
+                    title: "Are you sure you want to delete this record?",
+                    text: "If you delete this, it will be gone forever.",
+                    icon: "warning",
+                    type: "warning",
+                    buttons: ["Cancel","Yes!"],
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((willDelete) => {
+                    if (willDelete) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    </script>
 
 </body>
 

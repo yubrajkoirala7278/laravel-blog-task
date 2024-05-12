@@ -27,7 +27,7 @@
                 <tr>
                     <th scope="col">Image</th>
                     <td>
-                        <img src="{{asset('storage/images/post/'.$post->image->filename)}}" alt="" style="height: 50px">
+                        <img src="{{asset('storage/images/post/'.$post->image)}}" alt="" style="height: 50px">
                     </td>
                 </tr>
             </tbody>

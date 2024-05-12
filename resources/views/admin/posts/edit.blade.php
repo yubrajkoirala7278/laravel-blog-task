@@ -3,7 +3,7 @@
 @section('content')
 <div class="bg-white p-4">
     <h2 class="fs-5 mb-4">Edit Post</h2>
-    <form action="{{ route('posts.update', $post->slug) }}" method="POST">
+    <form action="{{ route('posts.update', $post->slug) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         {{-- title --}}
@@ -66,10 +66,10 @@
         </div>
         {{-- image --}}
         <div class="mb-3">
-            <label for="filename" class="form-label">Image</label>
-            <input type="file" class="form-control" id="filename" name="filename">
-            @if ($errors->has('filename'))
-            <span class="text-danger text-sm">{{ $errors->first('filename') }}</span>
+            <label for="image" class="form-label">Image</label>
+            <input type="file" class="form-control" id="image" name="image">
+            @if ($errors->has('image'))
+            <span class="text-danger text-sm">{{ $errors->first('image') }}</span>
             @endif
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
