@@ -9,10 +9,7 @@ use Illuminate\Support\Facades\Route;
 // ============frontend================
 // home-page
 Route::get('/',[HomeController::class,'index'])->name('frontend.index');
-Route::get('/read-more/{post}',[ReadmoreController::class,'index'])->name('frontend.read-more');
-Route::get('/category/{category}',[CategoryController::class,'index'])->name('frontend.category');
-
-
+Route::get('/read-more/{post}',[HomeController::class,'show'])->name('frontend.read-more');
 
 // ============admin dashboard============
 Route::group(['middleware'=>['web','checkAdmin']],function(){

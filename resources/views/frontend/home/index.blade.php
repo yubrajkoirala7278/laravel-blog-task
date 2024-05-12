@@ -1,55 +1,36 @@
 @extends('frontend.layout.master')
-
 @section('content')
-    <section class="section">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 mb-4">
-                    <div>
-                        <h2 class="fs-5 text-primary">Categories</h2>
-                        <span class="badge text-bg-success p-2 me-2">All</span>
-                        @foreach ($categories as $category)
-                            <span class="badge text-bg-success p-2 me-2">{{ $category->name }}({{$category->posts_count}})</span>
-                        @endforeach
-                    </div>
-                </div>
-                @if (count($posts) > 0)
-                    @foreach ($posts as $post)
-                        <div class="col-12 col-md-6 col-lg-4 mb-4 ">
-                            <div class="card">
-                                <a href="{{ route('frontend.read-more', $post->slug) }}">
-                                    <div class="card-image">
-                                        <div class="post-info"> <span
-                                                class="text-uppercase">{{ $post->created_at->format('d M
-                                                                                                                                                                            Y') }}</span>
-                                        </div>
-                                        <img loading="lazy" decoding="async"
-                                            src="{{ asset('storage/images/post/' . $post->image) }}"
-                                            alt="Post Thumbnail" class="w-100">
-                                    </div>
-                                </a>
-                                <div class="card-body px-0 pb-0">
-                                    <span class="badge bg-success">{{$post->category->name}}</span>
-                                    <h2><a class="post-title"
-                                            href="{{ route('frontend.read-more', $post->slug) }}">{{ $post->title }}</a>
-                                    </h2>
-                                    <p class="card-text">{{ Str::limit($post->description, 200) }}</p>
-                                    <div class="content"> <a class="read-more-btn"
-                                            href="{{ route('frontend.read-more', $post->slug) }}">Read Full
-                                            Blog</a>
-                                    </div>
-                                </div>
+    <div class="container">
+        <h2 class="text-title fs-2 fw-semibold">Blogs</h2>
+        <div class="row d-flex mb-4" style="row-gap: 20px">
+            @if (count($posts) > 0)
+                @foreach ($posts as $post)
+                    <div class="col col-12 col-md-6 col-lg-4">
+                        <div class="blog-card pb-3">
+                            <div class="blog-img-div">
+                                <a href="{{ route('frontend.read-more', $post->slug) }}"><img loading="lazy" decoding="async"
+                                        src="{{ asset('storage/images/post/' . $post->image) }}" alt="Post Thumbnail"
+                                        class="img-fluid"></a>
+                            </div>
+                            <div class="px-3 py-2">
+                                <span class="badge text-bg-success">{{ $post->category->name }}</span>
+                                <p class="fs-4 text-title pt-1 mb-0">{{ $post->title }} </p>
+                                <p>{{ Str::limit($post->description, 200) }}</p>
+                                <a href="{{ route('frontend.read-more', $post->slug) }}" class="d-block text-end text-decoration-none text-title fw-semibold">Read
+                                    More<i class="fa-solid fa-chevron-right"></i></a>
                             </div>
                         </div>
-                    @endforeach
-                @else
-                    <div class="col-12">
-                        <p>No Post Yet</p>
                     </div>
-                @endif
-
-                {{ $posts->links() }}
+                @endforeach
+            @else
+            <div class="col col-12 col-md-6 col-lg-4 text-center">
+                <p>No Blogs to display</p>
             </div>
+            @endif
         </div>
-    </section>
+        {{ $posts->links() }}
+    </div>
+@endsection
+
+@section('script')
 @endsection

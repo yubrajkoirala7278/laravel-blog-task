@@ -10,6 +10,6 @@ class ReadmoreController extends Controller
     public function index(Post $post)
     {
         $post = Post::where('slug', $post->slug)->first();
-        return view('frontend.readmore.index', compact('post'));
+        // return view('frontend.readmore.index', compact('post'));
     }
 }
