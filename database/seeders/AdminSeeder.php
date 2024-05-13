@@ -18,10 +18,10 @@ class AdminSeeder extends Seeder
        User::where('email', 'yubrajkoirala7278@gmail.com')->delete();
        // add super admin 
        User::create([
-        'name'=>'Super_Admin',
+        'name'=>'Yubraj Koirala',
         'email'=>'yubrajkoirala7278@gmail.com',
         'password'=>Hash::make('123456'),
-        'is_admin'=>1
+        'role'=>'admin'
        ]);
     }
 }

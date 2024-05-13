@@ -57,4 +57,10 @@ class AuthService{
     }
     // ==================================
 
+     // =======register==========
+     public function register($request){
+       User::create($request);
+    }
+    // ================================
+
 }

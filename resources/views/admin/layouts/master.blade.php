@@ -10,7 +10,8 @@
     <meta content="" name="keywords">
 
     <!-- Favicons -->
-    {{-- <link href="assets/img/favicon.png" rel="icon">
+    {{--
+    <link href="assets/img/favicon.png" rel="icon">
     <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon"> --}}
 
     <!-- Google Fonts -->
@@ -74,7 +75,7 @@
                         <span class="d-none d-md-block  ps-2">Yubraj Koirala</span>
                     </a><!-- End Profile Iamge Icon -->
 
-                    
+
                 </li><!-- End Profile Nav -->
 
             </ul>
@@ -93,27 +94,42 @@
                     <span>Dashboard</span>
                 </a>
             </li><!-- End Dashboard Nav -->
-
+            @if (auth()->user()->role == 'admin')
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{{ route('category.index') }}">
                     <i class="fa-solid fa-layer-group"></i>
                     <span>Category</span>
                 </a>
             </li>
+            @endif
 
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="{{ route('posts.index') }}">
-                    <i class="fa-solid fa-blog"></i>
-                    <span>Blogs</span>
-                </a>
-            </li>
+            @if (auth()->user()->role == 'admin' || auth()->user()->role == 'blog_manager')
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="{{ route('posts.index') }}">
+                        <i class="fa-solid fa-blog"></i>
+                        <span>Blogs</span>
+                    </a>
+                </li>
+            @endif
 
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="{{ route('news.index') }}">
-                    <i class="fa-regular fa-newspaper"></i>
-                    <span>News</span>
-                </a>
-            </li>
+            @if (auth()->user()->role == 'admin' || auth()->user()->role == 'news_manager')
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="{{ route('news.index') }}">
+                        <i class="fa-regular fa-newspaper"></i>
+                        <span>News</span>
+                    </a>
+                </li>
+            @endif
+
+            @if (auth()->user()->role == 'admin')
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="{{ route('users.index') }}">
+                        <i class="fa-solid fa-user"></i>
+                        <span>Users</span>
+                    </a>
+                </li>
+            @endif
+
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{{ route('logout') }}">
@@ -207,7 +223,7 @@
         }
         var category = document.getElementById("addCategory");
         var updateCategory = document.getElementById("updateCategory");
-        var title=document.getElementById("title");
+        var title = document.getElementById("title");
         if (category) {
             category.addEventListener("input", function() {
                 var categoryValue = this.value;
@@ -227,7 +243,6 @@
                 document.getElementById("slug").value = generateSlug(categoryValue);
             });
         }
-
     </script>
 
     {{-- sweet alert --}}
@@ -236,16 +251,16 @@
     <script src="{{ asset('admin/assets/js/main.js') }}"></script>
     <script type="text/javascript">
         $(document).ready(function() {
-            $(document).on('click', '.show-alert-delete-box', function(event){
-                var form =  $(this).closest("form");
-    
+            $(document).on('click', '.show-alert-delete-box', function(event) {
+                var form = $(this).closest("form");
+
                 event.preventDefault();
                 swal({
                     title: "Are you sure you want to delete this record?",
                     text: "If you delete this, it will be gone forever.",
                     icon: "warning",
                     type: "warning",
-                    buttons: ["Cancel","Yes!"],
+                    buttons: ["Cancel", "Yes!"],
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
                     confirmButtonText: 'Yes, delete it!'
