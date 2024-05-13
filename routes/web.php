@@ -1,14 +1,13 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\Frontend\CategoryController;
 use App\Http\Controllers\Frontend\HomeController;
-use App\Http\Controllers\Frontend\ReadmoreController;
 use Illuminate\Support\Facades\Route;
 
 // ============frontend================
 // home-page
 Route::get('/',[HomeController::class,'index'])->name('frontend.index');
+Route::get('/news',[HomeController::class,'news'])->name('frontend.news');
 Route::get('/read-more/{post}',[HomeController::class,'show'])->name('frontend.read-more');
 
 // ============admin dashboard============
